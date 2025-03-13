@@ -6,6 +6,80 @@ import './App.css';
 import { Loading02Icon } from 'hugeicons-react';
 
 // Komponen Halaman Terima Kasih
+const Private = () => {
+
+  const [surveys, setSurveys] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Ambil data survei dari server
+    axios.get('https://api-survey-jhon-brooke.vercel.app/api/surveys')
+      .then(res => {
+        setSurveys(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, []);
+
+  // Fungsi untuk mengubah nilai waktu sedikit
+  const formatTime = (time) => {
+    if (time === '-') return time; // Jika '-', biarkan tetap '-'
+    return parseFloat(time).toFixed(1); // Bulatkan ke 1 desimal
+  };
+
+  if (loading) {
+    return <div className="container2">Memuat data...</div>;
+  }
+
+  return (
+    <div className="container3">
+      <table className="survey-table">
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>Profesi</th>
+            <th>Q1</th>
+            <th>Q2</th>
+            <th>Q3</th>
+            <th>Q4</th>
+            <th>Q5</th>
+            <th>Q6</th>
+            <th>Q7</th>
+            <th>Q8</th>
+            <th>Q9</th>
+            <th>Q10</th>
+          </tr>
+        </thead>
+        <tbody>
+          {surveys.map((survey, index) => {
+            // Membuat array timeTaken berdasarkan questionId (0-9)
+            const timeTakenArray = Array(10).fill('-'); // Default '-' jika tidak ada jawaban
+            survey.responses.forEach((response) => {
+              const qId = parseInt(response.questionId);
+              timeTakenArray[qId] = response.timeTaken;
+            });
+
+            return (
+              <tr key={survey._id}>
+                <td>{index + 1}. {survey.name}</td>
+                <td>{survey.profession}</td>
+                {timeTakenArray.map((time, index) => (
+                  <td key={index}>{formatTime(time)} dtk</td> // Terapkan formatTime di sini
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+// Komponen Halaman Terima Kasih
 const ThankYouPage = () => {
   return (
     <div className="container">
@@ -177,6 +251,7 @@ function MainApp() {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/thank-you" element={<ThankYouPage />} />
+        <Route path="/private/results" element={<Private />} />
       </Routes>
     </Router>
   );
