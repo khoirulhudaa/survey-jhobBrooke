@@ -28,7 +28,7 @@ function App() {
   const navigate = useNavigate(); // Hook untuk navigasi
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/questions')
+    axios.get('https://api-survey-jhon-brooke.vercel.ap/api/questions')
       .then(res => setQuestions(res.data))
       .catch(err => console.error(err));
   }, []);
@@ -48,7 +48,7 @@ function App() {
     const timeTaken = (Date.now() - startTime) / 1000;
 
     try {
-      await axios.post('http://localhost:5000/api/submit', {
+      await axios.post('https://api-survey-jhon-brooke.vercel.ap/api/submit', {
         userId,
         name,
         profession,
