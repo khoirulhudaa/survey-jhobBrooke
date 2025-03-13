@@ -7,6 +7,50 @@
   background-color: #f0f0f0;
 }
 
+.container2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  min-height: 100vh;
+  color: black;
+  font-size: 24px;
+  background-color: #f0f0f0;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bg-disabled {
+  background-color: rgb(196, 196, 196);
+  color: rgb(102, 102, 102);
+  cursor: not-allowed;
+  display: flex;
+  height: 40px;
+  width: max-content;
+  align-items: center;
+  gap: 8px;
+}
+
+.wait {
+  color: rgb(102, 102, 102);
+}
+
+.bg-disabled:hover {
+  background-color: rgb(196, 196, 196);
+  color: rgb(102, 102, 102);
+}
+
 .form-container {
   background: white;
   padding: 20px;
@@ -108,7 +152,7 @@ button:hover {
   body {
     overflow-x: hidden;
   }
-  
+
   .container {
     display: flex;
     justify-content: center;

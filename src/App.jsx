@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom'; // Import React Router
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+// import { Loading02Icon } from 'hugeicons/react'; // Import ikon loading dari hugeicons-react
 import './App.css';
+import { Loading02Icon } from 'hugeicons-react';
 
 // Komponen Halaman Terima Kasih
 const ThankYouPage = () => {
@@ -25,7 +27,8 @@ function App() {
   const [name, setName] = useState('');
   const [profession, setProfession] = useState('');
   const [isFormStarted, setIsFormStarted] = useState(false);
-  const navigate = useNavigate(); // Hook untuk navigasi
+  const [isLoading, setIsLoading] = useState(false); // State untuk loading
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('https://api-survey-jhon-brooke.vercel.app/api/questions')
@@ -45,6 +48,13 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!answer) {
+      alert('Silakan pilih salah satu jawaban sebelum melanjutkan!');
+      return;
+    }
+
+    setIsLoading(true); // Mulai loading
     const timeTaken = (Date.now() - startTime) / 1000;
 
     try {
@@ -64,17 +74,17 @@ function App() {
         setAnswer('');
         setStartTime(Date.now());
       } else {
-        // Arahkan ke halaman terima kasih setelah pertanyaan terakhir
         navigate('/thank-you');
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false); // Selesai loading, baik sukses atau gagal
     }
   };
 
-  if (questions.length === 0) return <div>Tunggu sebentar...</div>;
+  if (questions.length === 0) return <div className='container2'>Tunggu sebentar...</div>;
 
-  // Initial form for name and profession
   if (!isFormStarted) {
     return (
       <div className="container">
@@ -110,7 +120,6 @@ function App() {
     );
   }
 
-  // Main survey form
   return (
     <div className="container">
       <div className="form-container">
@@ -118,11 +127,11 @@ function App() {
         <p>Nama: {name} | Profesi: {profession}</p>
         <p>Jumlah pertanyaan 1-10</p>
         <div className='border'></div>
-        <div class="scale">1 = Sangat Tidak Setuju</div>
-        <div class="scale">2 = Tidak Setuju</div>
-        <div class="scale">3 = Netral</div>
-        <div class="scale">4 = Setuju</div>
-        <div class="scale">5 = Sangat Setuju</div>
+        <div className="scale">1 = Sangat Tidak Setuju</div>
+        <div className="scale">2 = Tidak Setuju</div>
+        <div className="scale">3 = Netral</div>
+        <div className="scale">4 = Setuju</div>
+        <div className="scale">5 = Sangat Setuju</div>
         <form onSubmit={handleSubmit}>
           <div className="question-card">
             <p>{currentQuestion + 1}. {questions[currentQuestion].text}</p>
@@ -141,8 +150,19 @@ function App() {
               ))}
             </div>
           </div>
-          <button type="submit">
-            {currentQuestion === questions.length - 1 ? 'Selesai' : 'Simpan'}
+          <button
+            type="submit"
+            className={!answer || isLoading ? 'bg-disabled' : ''}
+            disabled={!answer || isLoading} // Disable tombol saat loading atau belum ada jawaban
+          >
+            {isLoading ? (
+              <>
+                <Loading02Icon className="spin" size={20} /> 
+                <p className='wait'>Menunggu</p>
+              </>
+            ) : (
+              currentQuestion === questions.length - 1 ? 'Selesai' : 'Simpan'
+            )}
           </button>
         </form>
       </div>
