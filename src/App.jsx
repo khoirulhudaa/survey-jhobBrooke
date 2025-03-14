@@ -243,7 +243,7 @@ const Private = () => {
       <div className="wrap-chart">
         {/* Bar Chart for Average Time Taken */}
         <div className='child-chart'>
-          <h4 className="title">Grafik Rata-rata Waktu</h4>
+          <h4 className="title2">Grafik Rata-rata Waktu</h4>
           <div style={{ width: '88%', height: '88%', margin: '0 auto 40px' }}>
             <Bar
               data={timeTakenChartData}
@@ -253,7 +253,7 @@ const Private = () => {
         </div>
         <div className='child-chart'>
           {/* Bar Chart for Average Answer */}
-          <h4 className="title">Grafik Rata-rata Nilai</h4>
+          <h4 className="title2">Grafik Rata-rata Nilai</h4>
           <div style={{ width: '88%', height: '88%', margin: '0 auto 40px' }}>
             <Bar
               data={answerChartData}
