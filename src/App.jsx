@@ -9,7 +9,7 @@ import {
   Tooltip,
 } from 'chart.js'; // Import necessary Chart.js components
 import { Loading02Icon, Xls01Icon } from 'hugeicons-react';
-import { default as React, default as React, useEffect, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2'; // Import Bar from react-chartjs-2
 import { Route, BrowserRouter as Router, Routes, useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx'; // Add this line to import the xlsx library
